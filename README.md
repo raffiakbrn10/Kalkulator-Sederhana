@@ -47,25 +47,6 @@ Berbeda dengan kalkulator web kasual yang mengandalkan fungsi instan bawaan sepe
                                                                                    │
 [ Client: Render Screen ] <-- Return JSON: {"result": "22"} ----------             ▼
 
+---
 
-## Struktur Proyek
-├── index.html          # Struktur antarmuka & layout kalkulator
-├── style.css           # Desain tema, animasi, dan layout responsive (CSS Variables)
-├── script.js          # Arsitektur Frontend, Keyboard Listener, & Async Fetch Engine
-├── flask_app.py        # File Backend utama (Custom Math Engine & Flask API)
-└── requirements.txt    # Daftar dependensi library Python (Flask, Flask-CORS)
 
-## Menjalankan Secara Lokal:
-git clone [https://github.com/raffiakbrn10/Kalkulator-Sederhana.git]([https://github.com/USERNAME_KAMU/NAMA_REPO_KAMU.git](https://github.com/raffiakbrn10/Kalkulator-Sederhana.git))
-cd /Kalkulator-Sederhana
-
-## Menjalankan Backend Python:
-# Install library yang dibutuhkan
-pip install -r requirements.txt
-
-# Jalankan server lokal Flask
-python flask_app.py
-Catatan: Ubah variabel BACKEND_URL di script.js ke http://127.0.0.1:5000/calculate saat menguji coba secara lokal.
-
-##🔒 Alasan Menggunakan Custom Engine (Bukan eval())
-Dalam rekayasa perangkat lunak, penggunaan fungsi bawaan seperti eval() pada string input mentah dari pengguna sangat dihindari (Security Anti-Pattern). Jika proyek ini menggunakan eval(), pengguna bisa memasukkan kode berbahaya (misalnya perintah sistem operasi) yang dapat mengeksploitasi server atau browser.Dengan membangun Custom Stack Interpreter sendiri:Aman: Server hanya mengenali token angka dan 4 operator aritmatika murni. Input teks aneh lainnya otomatis diblokir dan menghasilkan status Error.Efisiensi: Menggunakan memori linear $O(n)$ untuk parsing token, menjadikannya sangat ringan untuk eksekusi skala server.
