@@ -9,7 +9,7 @@ const buttons = document.querySelectorAll('.btn, .btn.operator-equal');
 // Konfigurasi URL API Backend Python
 // Hubungkan ke http://127.0.0.1:5000/calculate saat uji coba lokal di laptop
 // Ganti dengan URL dari Render (misal: https://kalkulator-backend.onrender.com/calculate) saat deploy live
-const BACKEND_URL = "http://127.0.0.1:5000/calculate";
+const BACKEND_URL = "https://raffiakbrn.pythonanywhere.com/calculate";
 
 let currentInput = '0';
 let isEvaluated = false;
