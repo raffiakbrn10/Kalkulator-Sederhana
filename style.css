@@ -1,0 +1,262 @@
+:root {
+    --bg-body: #f1f5f9;
+    --bg-calc: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --btn-bg: #f8fafc;
+    --btn-hover: #e2e8f0;
+    --btn-operator: #f43f5e;
+    --btn-operator-hover: #e11d48;
+    --text-btn: #0f172a;
+    --panel-bg: rgba(255, 255, 255, 0.95);
+    --shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] {
+    --bg-body: #0b0f19;
+    --bg-calc: linear-gradient(135deg, #310413 0%, #0f172a 100%);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --btn-bg: rgba(255, 255, 255, 0.06);
+    --btn-hover: rgba(255, 255, 255, 0.15);
+    --btn-operator: #f43f5e;
+    --btn-operator-hover: #fb7185;
+    --text-btn: #f8fafc;
+    --panel-bg: rgba(15, 23, 42, 0.95);
+    --shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-body);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh; /* Menggunakan dvh agar pas di browser HP */
+    padding: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.calculator-container {
+    background: var(--bg-calc);
+    width: 100%;
+    max-width: 380px;
+    height: 680px;
+    border-radius: 32px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden; /* Mengunci panel riwayat di dalam wadah */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+}
+
+.brand {
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.header-actions button {
+    background: var(--btn-bg);
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.header-actions button:hover {
+    transform: scale(1.05);
+    background: var(--btn-hover);
+}
+
+/* Display Section */
+.display-section {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 20px 8px;
+    overflow: hidden;
+}
+
+#current-display {
+    color: var(--text-main);
+    font-size: clamp(30px, 8vw, 48px); /* Teks mengecil otomatis jika layar HP sempit */
+    font-weight: 600;
+    text-align: right;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto; /* Scroll horizontal jika angka terlalu panjang */
+}
+
+/* Custom Scrollbar untuk Display */
+#current-display::-webkit-scrollbar {
+    height: 4px;
+}
+#current-display::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 2px;
+}
+
+/* Panel Riwayat Kompleks */
+.history-panel {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 56px);
+    background: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%); /* Sembunyi di bawah */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.history-panel.open {
+    transform: translateY(0); /* Geser naik saat aktif */
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--btn-hover);
+    padding-bottom: 10px;
+    color: var(--text-main);
+}
+
+#clear-history-btn {
+    background: none;
+    border: none;
+    color: var(--btn-operator);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.history-item {
+    text-align: right;
+    border-bottom: 1px dashed var(--btn-hover);
+    padding-bottom: 8px;
+}
+
+.history-expr {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.history-res {
+    color: var(--text-main);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.empty-history {
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 40px;
+    font-style: italic;
+}
+
+/* Keypad Section */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.btn {
+    border: none;
+    background: var(--btn-bg);
+    color: var(--text-btn);
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 500;
+    padding: clamp(14px, 3vh, 20px); /* Padding adaptif berdasarkan tinggi layar */
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.05s ease, box-shadow 0.2s;
+}
+
+.btn:hover {
+    background: var(--btn-hover);
+}
+
+/* Animasi klik halus */
+.btn:active {
+    transform: scale(0.92);
+}
+
+.btn.operator, .btn.operator-equal {
+    background: var(--btn-operator);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.btn.operator:hover, .btn.operator-equal:hover {
+    background: var(--btn-operator-hover);
+}
+
+.btn.func {
+    color: var(--btn-operator);
+    font-weight: 600;
+}
+
+.btn.zero {
+    grid-column: span 2;
+}
+
+/* Responsif Penuh untuk HP Layar Kecil */
+@media (max-width: 480px) {
+    body {
+        padding: 0;
+    }
+    .calculator-container {
+        max-width: 100%;
+        width: 100vw;
+        height: 100dvh;
+        border-radius: 0;
+        padding: 16px;
+    }
+}
